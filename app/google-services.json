@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "642937635302",
+    "project_id": "spendigcontrol2",
+    "storage_bucket": "spendigcontrol2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642937635302:android:83e928365e1a87aea7d627",
+        "android_client_info": {
+          "package_name": "com.example.spendingcontrol20"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "642937635302-05fcrp492oi49a704id18ilup4s9ave4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.spendingcontrol20",
+            "certificate_hash": "6d80973e8db20b43a1aa9ddfc09c5bed5655ec89"
+          }
+        },
+        {
+          "client_id": "642937635302-93oa8parj1j1drsf5c5tcc438a4ubqb4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUctzjXUeC_5hjImPg6G8vgLWe_ewnzyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "642937635302-93oa8parj1j1drsf5c5tcc438a4ubqb4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
