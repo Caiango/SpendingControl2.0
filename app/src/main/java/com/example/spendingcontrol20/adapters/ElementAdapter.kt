@@ -12,14 +12,13 @@ class ElementAdapter(
     var clickListener: onClickListener
 ) : RecyclerView.Adapter<ElementAdapter.HolderData>() {
 
-    var dataList: List<String> = ArrayList()
+    var dataList: ArrayList<HashMap<String, String>> = ArrayList()
 
     class HolderData(v: View) : RecyclerView.ViewHolder(v) {
         val txElement = v.findViewById<TextView>(R.id.editTextElement)
         val txValor = v.findViewById<TextView>(R.id.editTextValor)
 
-
-        fun initializeLong(item: String, action: onLongClickListener) {
+        fun initializeLong(item: java.util.HashMap<String, String>, action: onLongClickListener) {
 
             itemView.setOnLongClickListener {
                 action.onLongItemClick(item, adapterPosition)
@@ -28,7 +27,7 @@ class ElementAdapter(
 
         }
 
-        fun initializeClick(item: String, action: onClickListener) {
+        fun initializeClick(item: java.util.HashMap<String, String>, action: onClickListener) {
 
             itemView.setOnClickListener {
                 action.onItemClick(item, adapterPosition)
@@ -44,6 +43,8 @@ class ElementAdapter(
     override fun onBindViewHolder(holder: HolderData, position: Int) {
 
         val data = dataList[position]
+        holder.txElement.text = data["item_value"]
+        holder.txValor.text = data["item_name"]
 
         holder.initializeLong(dataList[position], longClickListener)
         holder.initializeClick(dataList[position], clickListener)
@@ -54,15 +55,20 @@ class ElementAdapter(
     }
 
     interface onLongClickListener {
-        fun onLongItemClick(item: String, position: Int) {
+        fun onLongItemClick(item: java.util.HashMap<String, String>, position: Int) {
 
         }
     }
 
     interface onClickListener {
-        fun onItemClick(item: String, position: Int) {
+        fun onItemClick(item: java.util.HashMap<String, String>, position: Int) {
 
         }
+    }
+
+    fun setAdapterList(list: ArrayList<HashMap<String, String>>) {
+        dataList = list
+        notifyDataSetChanged()
     }
 }
 

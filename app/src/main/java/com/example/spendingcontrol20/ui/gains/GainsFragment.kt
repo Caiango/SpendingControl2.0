@@ -34,8 +34,8 @@ class GainsFragment : Fragment() {
         }
 
         val textView: TextView = root.findViewById(R.id.text_notifications)
-        gainsViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+        gainsViewModel.text.observe(viewLifecycleOwner, Observer {value ->
+            textView.text = value
         })
         return root
     }

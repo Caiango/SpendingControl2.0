@@ -1,21 +1,30 @@
 package com.example.spendingcontrol20.ui.spending
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.airbnb.lottie.LottieAnimationView
 import com.example.spendingcontrol20.R
+import com.example.spendingcontrol20.UserData
 import com.example.spendingcontrol20.utils.DialogManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SpendingFragment : Fragment() {
 
     private lateinit var spendingViewModel: SpendingViewModel
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +38,8 @@ class SpendingFragment : Fragment() {
         val floatBtn = root.findViewById<FloatingActionButton>(R.id.floatingSpend)
 
         floatBtn.setOnClickListener {
-            DialogManager.dialogAdd(root.context, "Adicionar Despesa", "Despesa") { anim(anim) }
+            //DialogManager.dialogAdd(root.context, "Adicionar Despesa", "Despesa") { anim(anim) }
+
         }
         spendingViewModel.text.observe(viewLifecycleOwner, Observer {
 
@@ -45,4 +55,9 @@ class SpendingFragment : Fragment() {
             anim.pauseAnimation()
         }, 4700)
     }
+
+
 }
+
+
+
