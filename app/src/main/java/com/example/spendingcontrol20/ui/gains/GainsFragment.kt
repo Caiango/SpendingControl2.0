@@ -12,11 +12,15 @@ import androidx.lifecycle.ViewModelProvider
 import com.airbnb.lottie.LottieAnimationView
 import com.example.spendingcontrol20.R
 import com.example.spendingcontrol20.utils.DialogManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+
+lateinit var superAnim: LottieAnimationView
 
 class GainsFragment : Fragment() {
 
     private lateinit var gainsViewModel: GainsViewModel
+    var userId = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,13 +32,27 @@ class GainsFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_gains, container, false)
         val anim = root.findViewById<LottieAnimationView>(R.id.animation_gain)
         val floatBtn = root.findViewById<FloatingActionButton>(R.id.floatingGain)
+        val acct = GoogleSignIn.getLastSignedInAccount(root.context)
+
+        if (acct != null) {
+            userId = acct.id!!
+        }
+
 
         floatBtn.setOnClickListener {
-            DialogManager.dialogAdd(root.context, "Adicionar Ganho", "Ganho") { anim(anim) }
+            var UID = getRandomString()
+            DialogManager.dialogAdd(
+                root.context,
+                "Adicionar Ganho",
+                "Ganho",
+                userId,
+                "Ganho",
+                UID
+            ) { anim(anim) }
         }
 
         val textView: TextView = root.findViewById(R.id.text_notifications)
-        gainsViewModel.text.observe(viewLifecycleOwner, Observer {value ->
+        gainsViewModel.text.observe(viewLifecycleOwner, Observer { value ->
             textView.text = value
         })
         return root
@@ -49,4 +67,12 @@ class GainsFragment : Fragment() {
         }, 4700)
 
     }
+
+    fun getRandomString(): String {
+        val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+        return (1..20)
+            .map { allowedChars.random() }
+            .joinToString("")
+    }
+
 }

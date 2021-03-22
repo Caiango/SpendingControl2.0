@@ -15,6 +15,7 @@
         android:layout_marginEnd="16dp"
         android:hint="Elemento"
         android:textStyle="bold"
+        android:fontFamily="@font/montserrat_medium"
         app:layout_constraintEnd_toStartOf="@+id/guideline8"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,6 +28,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:hint="Valor"
+        android:fontFamily="@font/montserrat_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline8"
         app:layout_constraintStart_toEndOf="@+id/imageView"

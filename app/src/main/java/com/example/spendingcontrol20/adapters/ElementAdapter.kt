@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spendingcontrol20.R
+import com.example.spendingcontrol20.utils.Constants
 
 class ElementAdapter(
     var longClickListener: onLongClickListener,
@@ -43,8 +44,8 @@ class ElementAdapter(
     override fun onBindViewHolder(holder: HolderData, position: Int) {
 
         val data = dataList[position]
-        holder.txElement.text = data["item_value"]
-        holder.txValor.text = data["item_name"]
+        holder.txElement.text = data[Constants.ITEM_NAME]
+        holder.txValor.text = data[Constants.ITEM_VALUE]
 
         holder.initializeLong(dataList[position], longClickListener)
         holder.initializeClick(dataList[position], clickListener)
