@@ -5,6 +5,7 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.example.spendingcontrol20.R
 import com.example.spendingcontrol20.adapters.ElementAdapter
+import com.example.spendingcontrol20.firestore.FireStoreUtils
 import com.example.spendingcontrol20.utils.Constants
 import com.example.spendingcontrol20.utils.DialogManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -21,6 +23,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 
 private var collection = ""
+private var saldo: Double = 0.0
+private lateinit var saldoListDesp: ArrayList<Double>
+private lateinit var textSaldo: TextView
 
 class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
     ElementAdapter.onLongClickListener {
@@ -42,9 +47,12 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
         val rv = root.findViewById<RecyclerView>(R.id.rv_spend)
         val anim = root.findViewById<LottieAnimationView>(R.id.animation_spend)
         val floatBtn = root.findViewById<FloatingActionButton>(R.id.floatingSpend)
+        textSaldo = root.findViewById(R.id.txtDespTotal)
 
         superAnim = LottieAnimationView(context)
         superAnim = anim
+
+        saldoListDesp = ArrayList()
 
         var adapter = ElementAdapter(this, this)
         rv.layoutManager = LinearLayoutManager(root.context)
@@ -71,12 +79,23 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
                 showAnimation(anim)
             }
 
+
         }
         spendingViewModel.text.observe(viewLifecycleOwner, Observer {
 
         })
 
-        getItems(db, adapter, anim)
+        FireStoreUtils.getItems(db, adapter, anim, collection)
+
+        saldoListDesp = FireStoreUtils.getSaldo(db, collection, root.context) {
+            setDespSaldoText(
+                textSaldo
+            )
+        }
+
+
+
+
         return root
 
     }
@@ -94,7 +113,7 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
 
         if (UID != null && name != null && valor != null) {
             context?.let {
-                DialogManager.dialogUpdate(
+                DialogManager.dialogItem(
                     it,
                     "Atualizar Item",
                     userId,
@@ -108,21 +127,12 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
     }
 }
 
-private fun getItems(
-    db: FirebaseFirestore,
-    adapter: ElementAdapter,
-    anim: LottieAnimationView
-) {
-    var lista = ArrayList<HashMap<String, String>>()
-    db.collection(collection).get().addOnSuccessListener { task ->
-        for (document in task) {
+private fun setDespSaldoText(tv: TextView) {
+    saldo = 0.0
+    if (saldoListDesp.isNotEmpty()) saldoListDesp.forEach { valor -> saldo += valor }
 
-            lista.add(document.data as HashMap<String, String>)
-        }
-        adapter.setAdapterList(lista)
-        anim.pauseAnimation()
-        anim.visibility = View.GONE
-    }
+    tv.text = "R$ $saldo"
+
 }
 
 

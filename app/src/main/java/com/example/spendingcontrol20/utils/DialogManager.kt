@@ -47,7 +47,7 @@ class DialogManager {
             dialog.show()
         }
 
-        fun dialogUpdate(
+        fun dialogItem(
             context: Context,
             title: String,
             userId: String,
@@ -66,11 +66,14 @@ class DialogManager {
             item.text = Editable.Factory.getInstance().newEditable(name)
             value.text = Editable.Factory.getInstance().newEditable(values)
 
-            dialog.setPositiveButton("Adicionar") { _: DialogInterface, _: Int ->
+            dialog.setPositiveButton("Atualizar") { _: DialogInterface, _: Int ->
                 mountData(item.text.toString(), value.text.toString(), UID)
 
                 if (FireStoreUtils.update(db, sendingData, context, userId, type, UID)) onComplete()
 
+            }
+            dialog.setNeutralButton("Excluir") { _: DialogInterface, _: Int ->
+                if (FireStoreUtils.deleteItem(db, context, userId, type, UID)) onComplete()
             }
             dialog.setNegativeButton("Cancelar") { dialogInterface: DialogInterface, i: Int ->
                 Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show()
