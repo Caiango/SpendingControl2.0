@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SpendingControl2.0</string>
     <string name="title_home">Home</string>
-    <string name="title_spending">Gastos</string>
+    <string name="title_spending">Despesas</string>
     <string name="title_gains">Ganhos</string>
     <string name="historico_mensal"><u>Histórico Mensal</u></string>
 </resources>

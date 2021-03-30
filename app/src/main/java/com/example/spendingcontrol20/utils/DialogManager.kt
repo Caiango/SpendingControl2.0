@@ -38,7 +38,15 @@ class DialogManager {
             dialog.setPositiveButton("Adicionar") { _: DialogInterface, _: Int ->
                 mountData(item.text.toString(), value.text.toString(), UID)
 
-                if (FireStoreUtils.insert(db, sendingData, context, userId, type, UID)) onComplete()
+                if (FireStoreUtils.insertItem(
+                        db,
+                        sendingData,
+                        context,
+                        userId,
+                        type,
+                        UID
+                    )
+                ) onComplete()
 
             }
             dialog.setNegativeButton("Cancelar") { dialogInterface: DialogInterface, i: Int ->
@@ -49,7 +57,6 @@ class DialogManager {
 
         fun dialogItem(
             context: Context,
-            title: String,
             userId: String,
             type: String,
             UID: String,
@@ -59,7 +66,7 @@ class DialogManager {
         ) {
             val dialog = AlertDialog.Builder(context)
             val view = LayoutInflater.from(context).inflate(R.layout.dialog_add, null)
-            dialog.setTitle(title)
+            dialog.setTitle("O que deseja realizar?")
             dialog.setView(view)
             val item = view.findViewById<EditText>(R.id.edt_element)
             val value = view.findViewById<EditText>(R.id.edt_valor)
@@ -69,7 +76,17 @@ class DialogManager {
             dialog.setPositiveButton("Atualizar") { _: DialogInterface, _: Int ->
                 mountData(item.text.toString(), value.text.toString(), UID)
 
-                if (FireStoreUtils.update(db, sendingData, context, userId, type, UID)) onComplete()
+                if (FireStoreUtils.updateItem(
+                        db,
+                        sendingData,
+                        context,
+                        userId,
+                        type,
+                        UID
+                    )
+                ) onComplete()
+
+
 
             }
             dialog.setNeutralButton("Excluir") { _: DialogInterface, _: Int ->

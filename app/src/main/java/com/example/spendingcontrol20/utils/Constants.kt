@@ -9,6 +9,8 @@ class Constants {
         val ITEM_VALUE = "item_value"
         val ITEM_UID = "item_uid"
 
+        var LIST = ArrayList<HashMap<String, String>>()
+
 
     }
 }

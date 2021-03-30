@@ -14,16 +14,16 @@ import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.example.spendingcontrol20.R
 import com.example.spendingcontrol20.adapters.ElementAdapter
+import com.example.spendingcontrol20.adapters.HomeAdapter
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.firestore.FirebaseFirestore
 
-class HomeFragment : Fragment(), ElementAdapter.onClickListener,
-    ElementAdapter.onLongClickListener {
+class HomeFragment : Fragment(), HomeAdapter.onClickListener,
+    HomeAdapter.onLongClickListener {
 
     private lateinit var homeViewModel: HomeViewModel
 
     val db = FirebaseFirestore.getInstance()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,10 +39,9 @@ class HomeFragment : Fragment(), ElementAdapter.onClickListener,
 
         //getting views
         val rv = root.findViewById<RecyclerView>(R.id.rv_home)
-        val anim = root.findViewById<LottieAnimationView>(R.id.anim_home)
-        var txProfile = root.findViewById<TextView>(R.id.txProfile)
+                var txProfile = root.findViewById<TextView>(R.id.txProfile)
 
-        var adapter = ElementAdapter(this, this)
+        var adapter = HomeAdapter(this, this)
         rv.layoutManager = LinearLayoutManager(root.context)
         rv.setHasFixedSize(true)
         rv.adapter = adapter
@@ -54,7 +53,7 @@ class HomeFragment : Fragment(), ElementAdapter.onClickListener,
             txProfile.text = acct.displayName?.toUpperCase()
             Glide.with(root.context).load(personPhoto).into(root.findViewById(R.id.profile_image))
         }
-        getItems(db, adapter, anim)
+        //getItems(db, adapter)
 
         return root
     }
@@ -62,8 +61,7 @@ class HomeFragment : Fragment(), ElementAdapter.onClickListener,
 
     private fun getItems(
         db: FirebaseFirestore,
-        adapter: ElementAdapter,
-        anim: LottieAnimationView
+        adapter: HomeAdapter
     ) {
         var lista = ArrayList<HashMap<String, String>>()
         db.collection("112696860758529407157Desp").get().addOnSuccessListener { task ->
@@ -72,8 +70,6 @@ class HomeFragment : Fragment(), ElementAdapter.onClickListener,
                 lista.add(document.data as HashMap<String, String>)
             }
             adapter.setAdapterList(lista)
-            anim.pauseAnimation()
-            anim.visibility = View.GONE
         }
     }
 

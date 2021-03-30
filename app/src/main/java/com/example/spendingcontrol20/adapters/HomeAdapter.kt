@@ -1,33 +1,23 @@
 package com.example.spendingcontrol20.adapters
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat.getColor
-import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spendingcontrol20.R
 import com.example.spendingcontrol20.utils.Constants
-import com.google.common.io.Resources.getResource
-import de.hdodenhof.circleimageview.CircleImageView
 
-class ElementAdapter(
+class HomeAdapter(
     var longClickListener: onLongClickListener,
-    var clickListener: onClickListener,
-    var type: String
-) : RecyclerView.Adapter<ElementAdapter.HolderData>() {
+    var clickListener: onClickListener
+) : RecyclerView.Adapter<HomeAdapter.HolderData>() {
 
     var dataList: ArrayList<HashMap<String, String>> = ArrayList()
 
     class HolderData(v: View) : RecyclerView.ViewHolder(v) {
         val txElement = v.findViewById<TextView>(R.id.editTextElement)
         val txValor = v.findViewById<TextView>(R.id.editTextValor)
-        val img = v.findViewById<CircleImageView>(R.id.imageViewAdapter)
-        val lay = v.findViewById<ConstraintLayout>(R.id.constraint)
 
         fun initializeLong(item: java.util.HashMap<String, String>, action: onLongClickListener) {
 
@@ -56,15 +46,6 @@ class ElementAdapter(
         val data = dataList[position]
         holder.txElement.text = data[Constants.ITEM_NAME]
         holder.txValor.text = data[Constants.ITEM_VALUE]
-        if (type == "Desp") {
-            holder.img.setImageResource(R.drawable.ic_spend)
-            holder.img.borderColor = Color.WHITE
-            holder.lay.setBackgroundColor(Color.parseColor("#D3F44336"))
-        } else {
-            holder.img.setImageResource(R.drawable.ic_spend)
-            holder.img.borderColor = Color.WHITE
-            holder.lay.setBackgroundColor(Color.parseColor("#D3F44336"))
-        }
 
         holder.initializeLong(dataList[position], longClickListener)
         holder.initializeClick(dataList[position], clickListener)
