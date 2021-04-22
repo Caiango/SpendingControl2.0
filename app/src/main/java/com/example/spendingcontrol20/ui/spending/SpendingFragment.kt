@@ -176,9 +176,14 @@ fun getDate(condicao: String): String {
         data = dataFinal
     } else if (condicao == "M") {
         var calendar = Calendar.getInstance()
-        var format = SimpleDateFormat("M/yyyy")
+        var format = SimpleDateFormat("MM/yyyy")
         var dataFinal = format.format(calendar.time)
-        data = dataFinal
+        var first: String = (dataFinal.first()).toString()
+        if (first == "0") {
+            data = dataFinal.removePrefix(dataFinal.first().toString())
+        } else {
+            data = dataFinal
+        }
     }
     return data
 }
