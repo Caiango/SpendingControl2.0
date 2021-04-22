@@ -7,6 +7,18 @@
     android:background="#32F44336"
     tools:context=".ui.spending.SpendingFragment">
 
+    <TextView
+        android:id="@+id/txtRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="REMOVER FILTROS"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline10"
+        app:layout_constraintTop_toTopOf="@+id/guideline6" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
@@ -53,8 +65,8 @@
         android:id="@+id/floatingSpend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
         android:backgroundTint="#FF2212"
+        android:clickable="true"
         android:src="@drawable/ic_add"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toStartOf="@+id/guideline2" />
@@ -64,6 +76,7 @@
         android:layout_width="170dp"
         android:layout_height="159dp"
         android:layout_gravity="center"
+        android:translationZ="99dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/rv_spend"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
@@ -92,10 +105,21 @@
         android:layout_marginBottom="24dp"
         android:fontFamily="@font/montserrat_medium"
         android:textColor="@color/red"
-        android:textSize="25sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintStart_toStartOf="@+id/guideline4" />
+
+    <TextView
+        android:id="@+id/txtMesTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_medium"
+        android:textColor="@color/red"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtDespTotal"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline10" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animation_spend_loading"
@@ -160,13 +184,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="DESPESA FIXA"
-        android:textStyle="bold"
         android:fontFamily="@font/montserrat_medium"
+        android:text="DESPESA FIXA"
         android:textSize="12sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/floatAddFixed"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintStart_toStartOf="@+id/guideline4" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingFilterDesp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FF2212"
+        android:clickable="true"
+        android:src="@drawable/ic_filter"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline10" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="FILTRAR DESPESA"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/floatingFilterDesp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline10" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

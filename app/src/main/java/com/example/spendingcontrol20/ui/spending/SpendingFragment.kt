@@ -1,16 +1,12 @@
 package com.example.spendingcontrol20.ui.spending
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.TextView
-import androidx.core.graphics.toColorInt
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.example.spendingcontrol20.R
 import com.example.spendingcontrol20.adapters.ElementAdapter
-import com.example.spendingcontrol20.firestore.FireStoreUtils
+import com.example.spendingcontrol20.model.FireStoreUtils
 import com.example.spendingcontrol20.utils.Constants
 import com.example.spendingcontrol20.utils.DialogManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -50,10 +46,14 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
         val anim = root.findViewById<LottieAnimationView>(R.id.animation_spend)
         val LoadingAnim = root.findViewById<LottieAnimationView>(R.id.animation_spend_loading)
         val floatBtn = root.findViewById<FloatingActionButton>(R.id.floatingSpend)
+        val floatBtnFixedDesp = root.findViewById<FloatingActionButton>(R.id.floatAddFixed)
+        val floatBtnFilter = root.findViewById<FloatingActionButton>(R.id.floatingFilterDesp)
         val textSaldo = root.findViewById<TextView>(R.id.txtDespTotal)
+        val textMensal = root.findViewById<TextView>(R.id.txtMesTotal)
+        val textRemove = root.findViewById<TextView>(R.id.txtRemove)
         val txtData = root.findViewById<TextView>(R.id.txtDate)
 
-        txtData.text = getDate()
+        txtData.text = getDate("A")
 
         superAnim = LottieAnimationView(context)
         superAnim = anim
@@ -69,6 +69,7 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
         }
 
         FireStoreUtils.getItems(db, LoadingAnim, collection, root.context, type, userId)
+        FireStoreUtils.getSaldoMensal(db, userId + type, root.context, type, null, getDate("M"))
 
         floatBtn.setOnClickListener {
             var UID = getRandomString()
@@ -86,15 +87,29 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
 
         }
 
+        floatBtnFilter.setOnClickListener {
+            DialogManager.dialogCalendar(root.context, userId, type)
+        }
+
+        textRemove.setOnClickListener {
+            LoadingAnim.playAnimation()
+            LoadingAnim.visibility = View.VISIBLE
+            FireStoreUtils.getItems(db, LoadingAnim, collection, root.context, type, userId)
+        }
+
         //OBSERVERS
 
         spendingViewModel.saldoText.observe(viewLifecycleOwner, {
-            textSaldo.text = "R$ $it"
+            textSaldo.text = "Total R$ $it"
         })
 
         spendingViewModel.lista.observe(viewLifecycleOwner, { list ->
             adapter.setAdapterList(list)
 
+        })
+
+        spendingViewModel.saldoMensal.observe(viewLifecycleOwner, { mensal ->
+            textMensal.text = "Mês Atual R$ $mensal"
         })
 
         return root
@@ -105,8 +120,9 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
         val UID = item[Constants.ITEM_UID]
         val name = item[Constants.ITEM_NAME]
         val valor = item[Constants.ITEM_VALUE]
+        val data = item[Constants.ITEM_DATA]
 
-        if (UID != null && name != null && valor != null) {
+        if (UID != null && name != null && valor != null && data != null) {
             context?.let {
                 DialogManager.dialogItem(
                     it,
@@ -122,7 +138,7 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
 
     }
 
-    override fun onLongItemClick(item: java.util.HashMap<String, String>, position: Int) {
+    override fun onLongItemClick(item: HashMap<String, String>, position: Int) {
 
     }
 }
@@ -143,14 +159,6 @@ fun showEndAnimation(anim: LottieAnimationView) {
     }, 4700)
 }
 
-fun FinishLoadingAnimation(anim: LottieAnimationView) {
-    anim.visibility = View.VISIBLE
-    anim.playAnimation()
-    Handler().postDelayed({
-        anim.visibility = View.GONE
-        anim.pauseAnimation()
-    }, 4700)
-}
 
 fun getRandomString(): String {
     val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
@@ -159,12 +167,20 @@ fun getRandomString(): String {
         .joinToString("")
 }
 
-fun getDate(): String {
-    var calendar = Calendar.getInstance()
-    var format = SimpleDateFormat("dd/MM/yyyy")
-    var dataFinal = format.format(calendar.time)
-    return dataFinal
-
+fun getDate(condicao: String): String {
+    var data = ""
+    if (condicao == "A") {
+        var calendar = Calendar.getInstance()
+        var format = SimpleDateFormat("dd/MM/yyyy")
+        var dataFinal = format.format(calendar.time)
+        data = dataFinal
+    } else if (condicao == "M") {
+        var calendar = Calendar.getInstance()
+        var format = SimpleDateFormat("M/yyyy")
+        var dataFinal = format.format(calendar.time)
+        data = dataFinal
+    }
+    return data
 }
 
 

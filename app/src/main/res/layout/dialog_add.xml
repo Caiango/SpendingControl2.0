@@ -31,4 +31,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edt_element" />
 
+    <CalendarView
+        android:id="@+id/calendarViewAdd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="Data da Despesa"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/edt_valor"
+        app:layout_constraintStart_toStartOf="@+id/edt_valor"
+        app:layout_constraintTop_toBottomOf="@+id/txtData" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selecione a data desejada"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/edt_valor"
+        app:layout_constraintStart_toStartOf="@+id/edt_valor"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/txtData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="Mês Selecionado:"
+        app:layout_constraintStart_toStartOf="@+id/edt_valor"
+        app:layout_constraintTop_toBottomOf="@+id/edt_valor" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,15 +4,11 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat.getColor
-import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spendingcontrol20.R
 import com.example.spendingcontrol20.utils.Constants
-import com.google.common.io.Resources.getResource
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ElementAdapter(
@@ -28,6 +24,7 @@ class ElementAdapter(
         val txValor = v.findViewById<TextView>(R.id.editTextValor)
         val img = v.findViewById<CircleImageView>(R.id.imageViewAdapter)
         val lay = v.findViewById<ConstraintLayout>(R.id.constraint)
+        val txData = v.findViewById<TextView>(R.id.txtDataElement)
 
         fun initializeLong(item: java.util.HashMap<String, String>, action: onLongClickListener) {
 
@@ -56,6 +53,7 @@ class ElementAdapter(
         val data = dataList[position]
         holder.txElement.text = data[Constants.ITEM_NAME]
         holder.txValor.text = data[Constants.ITEM_VALUE]
+        holder.txData.text = data[Constants.ITEM_DATA]
         if (type == "Desp") {
             holder.img.setImageResource(R.drawable.ic_spend)
             holder.img.borderColor = Color.WHITE

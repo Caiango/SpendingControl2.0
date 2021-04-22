@@ -3,7 +3,7 @@ package com.example.spendingcontrol20.ui.spending
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.spendingcontrol20.firestore.FireStoreUtils
+import com.example.spendingcontrol20.model.FireStoreUtils
 
 class SpendingViewModel : ViewModel() {
 
@@ -16,5 +16,7 @@ class SpendingViewModel : ViewModel() {
     val lista = FireStoreUtils.itemList
 
     val saldoText = FireStoreUtils.saldoDesp
+
+    val saldoMensal = FireStoreUtils.saldoMensal
 
 }

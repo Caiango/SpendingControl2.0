@@ -1,4 +1,4 @@
-package com.example.spendingcontrol20.firestore
+package com.example.spendingcontrol20.model
 
 import android.content.Context
 import android.view.View
@@ -17,6 +17,7 @@ class FireStoreUtils {
     companion object {
         val itemList: MutableLiveData<ArrayList<HashMap<String, String>>> = MutableLiveData()
         val saldoDesp: MutableLiveData<Double> = MutableLiveData()
+        val saldoMensal: MutableLiveData<Double> = MutableLiveData()
 
         fun insertItem(
             db: FirebaseFirestore,
@@ -76,7 +77,7 @@ class FireStoreUtils {
             userId: String
         ) {
             var lista = ArrayList<HashMap<String, String>>()
-            db.collection(collection).orderBy("item_value").get().addOnSuccessListener { task ->
+            db.collection(collection).orderBy("item_data").get().addOnSuccessListener { task ->
                 for (document in task) {
                     lista.add(document.data as HashMap<String, String>)
                 }
@@ -85,12 +86,30 @@ class FireStoreUtils {
 
                 if (anim == null) {
                     getSaldo(db, userId + type, context, type, null)
+
                 } else {
                     getSaldo(db, userId + type, context, type, anim)
                 }
 
 
             }
+        }
+
+        fun getItemsByData(
+            db: FirebaseFirestore,
+            collection: String,
+            data: String
+        ) {
+            var lista = ArrayList<HashMap<String, String>>()
+            db.collection(collection).whereEqualTo("item_data", data).get()
+                .addOnSuccessListener { task ->
+                    for (document in task) {
+                        lista.add(document.data as HashMap<String, String>)
+                    }
+
+                    itemList.postValue(lista)
+
+                }
         }
 
         fun getSaldo(
@@ -135,6 +154,52 @@ class FireStoreUtils {
                 ).show()
                 success = false
             }
+        }
+
+        fun getSaldoMensal(
+            db: FirebaseFirestore,
+            collection: String,
+            context: Context,
+            type: String,
+            anim: LottieAnimationView?,
+            mes: String
+        ) {
+            db.collection(collection).whereEqualTo("item_data", mes).get()
+                .addOnSuccessListener { task ->
+                    var saldoList = ArrayList<Double>()
+                    for (document in task) {
+
+                        var valor: String = document["item_value"] as String
+                        valor.trim().toDouble()
+
+                        saldoList.add(valor.toDouble())
+                    }
+
+                    totalSaldo = 0.0
+                    saldoList.forEach { item -> totalSaldo += item }
+
+                    if (type == "Desp") {
+                        saldoMensal.postValue(totalSaldo)
+                    } else if (type == "Gain") {
+                        //TODO set txtganho
+                    }
+
+                    success = true
+
+                    if (anim != null) {
+                        anim.pauseAnimation()
+                        anim.visibility = View.GONE
+                        success = true
+                    }
+
+                }.addOnFailureListener {
+                    Toast.makeText(
+                        context,
+                        it.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    success = false
+                }
         }
 
         fun deleteItem(
