@@ -73,6 +73,44 @@ class DialogManager {
             dialog.show()
         }
 
+
+        fun dialogAddFixed(
+            context: Context,
+            title: String,
+            hint: String,
+            collection: String,
+            fixed: Double,
+            onComplete: () -> Unit
+        ) {
+            val dialog = AlertDialog.Builder(context)
+            val view = LayoutInflater.from(context).inflate(R.layout.dialog_fixed, null)
+            dialog.setTitle(title)
+            dialog.setView(view)
+            val valor = view.findViewById<EditText>(R.id.editFixed)
+            val txFixed = view.findViewById<TextView>(R.id.txFixedDialog)
+            txFixed.text = "Valor Fixo R$ $fixed"
+            valor.hint = hint
+
+            dialog.setPositiveButton("Adicionar") { _: DialogInterface, _: Int ->
+                var hashFixo = HashMap<String, String>()
+                var value = valor.text.toString().trim()
+                hashFixo.put("valor_fixo", value)
+
+                if (FireStoreUtils.insertProg(
+                        db,
+                        hashFixo,
+                        context,
+                        collection, "Desp"
+                    )
+                ) onComplete()
+
+            }
+            dialog.setNegativeButton("Cancelar") { dialogInterface: DialogInterface, i: Int ->
+                Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show()
+            }
+            dialog.show()
+        }
+
         fun dialogItem(
             context: Context,
             userId: String,

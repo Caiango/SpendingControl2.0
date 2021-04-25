@@ -18,6 +18,10 @@ class FireStoreUtils {
         val itemList: MutableLiveData<ArrayList<HashMap<String, String>>> = MutableLiveData()
         val saldoDesp: MutableLiveData<Double> = MutableLiveData()
         val saldoMensal: MutableLiveData<Double> = MutableLiveData()
+        var saldoMensalDouble: Double = 0.0
+        val saldoProg: MutableLiveData<Double> = MutableLiveData()
+        val saldoSubProg: MutableLiveData<Double> = MutableLiveData()
+
 
         fun insertItem(
             db: FirebaseFirestore,
@@ -32,6 +36,30 @@ class FireStoreUtils {
                 .addOnSuccessListener {
                     success = true
                     getItems(db, null, userId + type, context, type, userId)
+                }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        context,
+                        it.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    success = false
+                }
+            return success
+        }
+
+        fun insertProg(
+            db: FirebaseFirestore,
+            data: HashMap<String, String>,
+            context: Context,
+            collection: String, type: String
+        ): Boolean {
+            db.collection(collection)
+                .document("Valor Fixo")
+                .set(data)
+                .addOnSuccessListener {
+                    success = true
+                    getSaldoFixed(db, collection, context, type)
                 }
                 .addOnFailureListener {
                     Toast.makeText(
@@ -156,6 +184,46 @@ class FireStoreUtils {
             }
         }
 
+        fun getSaldoFixed(
+            db: FirebaseFirestore,
+            collection: String,
+            context: Context,
+            type: String
+        ) {
+            db.collection(collection).document("Valor Fixo").get().addOnSuccessListener { task ->
+                try {
+
+
+                    var saldoFixed = 0.0
+
+                    var valor: String = task["valor_fixo"] as String
+                    valor.trim()
+                    saldoFixed = valor.toDouble()
+
+
+                    if (type == "Desp") {
+                        //saldoProg.postValue(saldoFixed - saldoMensalDouble)
+                        saldoProg.postValue(saldoFixed)
+                        saldoSubProg.postValue(saldoFixed)
+                    } else if (type == "Gain") {
+                        //TODO set txtganho
+                    }
+
+                    success = true
+
+                } catch (e: Exception) {
+                    success = false
+                }
+            }.addOnFailureListener {
+                Toast.makeText(
+                    context,
+                    it.toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+                success = false
+            }
+        }
+
         fun getSaldoMensal(
             db: FirebaseFirestore,
             collection: String,
@@ -177,6 +245,7 @@ class FireStoreUtils {
 
                     totalSaldo = 0.0
                     saldoList.forEach { item -> totalSaldo += item }
+                    saldoMensalDouble = totalSaldo
 
                     if (type == "Desp") {
                         saldoMensal.postValue(totalSaldo)

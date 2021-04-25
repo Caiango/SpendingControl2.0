@@ -31,8 +31,10 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
     lateinit var superAnim: LottieAnimationView
     val db = FirebaseFirestore.getInstance()
     private var collection = ""
+    private var collectionProg = ""
     var userId = ""
     private val type = "Desp"
+    private var despFixo = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,6 +53,7 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
         val textSaldo = root.findViewById<TextView>(R.id.txtDespTotal)
         val textMensal = root.findViewById<TextView>(R.id.txtMesTotal)
         val textRemove = root.findViewById<TextView>(R.id.txtRemove)
+        val textFixed = root.findViewById<TextView>(R.id.txtFixed)
         val txtData = root.findViewById<TextView>(R.id.txtDate)
 
         txtData.text = getDate("A")
@@ -66,10 +69,12 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
         if (acct != null) {
             userId = acct.id!!
             collection = acct.id!! + type
+            collectionProg = acct.id!! + "Prog"
         }
 
         FireStoreUtils.getItems(db, LoadingAnim, collection, root.context, type, userId)
         FireStoreUtils.getSaldoMensal(db, userId + type, root.context, type, null, getDate("M"))
+        FireStoreUtils.getSaldoFixed(db, collectionProg, root.context, "Desp")
 
         floatBtn.setOnClickListener {
             var UID = getRandomString()
@@ -85,6 +90,15 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
                 showEndAnimation(anim)
             }
 
+        }
+
+        floatBtnFixedDesp.setOnClickListener {
+            DialogManager.dialogAddFixed(
+                root.context,
+                "Valor Fixo",
+                "200.00",
+                collectionProg, despFixo
+            ) {}
         }
 
         floatBtnFilter.setOnClickListener {
@@ -112,6 +126,13 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
             textMensal.text = "Mês Atual R$ $mensal"
         })
 
+        spendingViewModel.saldoProg.observe(viewLifecycleOwner, { prog ->
+            textFixed.text = "R$ $prog"
+        })
+
+        spendingViewModel.saldoSubProg.observe(viewLifecycleOwner, {
+            despFixo = it
+        })
         return root
     }
 
