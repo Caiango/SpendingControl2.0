@@ -17,10 +17,10 @@ class SpendingViewModel : ViewModel() {
 
     val saldoText = FireStoreUtils.saldoDesp
 
-    val saldoMensal = FireStoreUtils.saldoMensal
+    val saldoMensal = FireStoreUtils.saldoMensalDesp
 
-    val saldoProg = FireStoreUtils.saldoProg
+    val saldoProg = FireStoreUtils.saldoProgDesp
 
-    val saldoSubProg = FireStoreUtils.saldoSubProg
+    val saldoSubProg = FireStoreUtils.saldoSubProgDesp
 
 }

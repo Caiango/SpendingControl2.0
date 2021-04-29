@@ -3,7 +3,7 @@ package com.example.spendingcontrol20.ui.gains
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.spendingcontrol20.utils.Constants
+import com.example.spendingcontrol20.model.FireStoreUtils
 
 class GainsViewModel : ViewModel() {
 
@@ -13,11 +13,15 @@ class GainsViewModel : ViewModel() {
 
     val text: LiveData<String> = _text
 
-    private var _data = MutableLiveData<ArrayList<HashMap<String, String>>>().apply {
-        value = Constants.LIST
-    }
+    val lista = FireStoreUtils.itemList
 
-    val lista: LiveData<ArrayList<HashMap<String, String>>> = _data
+    val saldoText = FireStoreUtils.saldoGain
+
+    val saldoMensal = FireStoreUtils.saldoMensalGain
+
+    val saldoProg = FireStoreUtils.saldoProgGain
+
+    val saldoSubProg = FireStoreUtils.saldoSubProgGain
 
 
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#32F44336"
+    android:background="#6DF44336"
     tools:context=".ui.spending.SpendingFragment">
 
     <TextView
@@ -14,6 +14,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="REMOVER FILTROS"
+        android:textColor="@color/white"
         android:textSize="10sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
@@ -24,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_medium"
+        android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/txtRemove"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
@@ -154,6 +156,7 @@
         android:layout_height="20dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="TextView"
+        android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView5"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
@@ -198,6 +201,7 @@
         android:layout_marginBottom="10dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="DESPESA FIXA"
+        android:textColor="@color/white"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/floatAddFixed"
@@ -222,6 +226,7 @@
         android:layout_marginBottom="10dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="FILTRAR DESPESA"
+        android:textColor="@color/white"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/floatingFilterDesp"

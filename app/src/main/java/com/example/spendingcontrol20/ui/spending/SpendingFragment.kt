@@ -72,7 +72,7 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
             collectionProg = acct.id!! + "Prog"
         }
 
-        FireStoreUtils.getItems(db, LoadingAnim, collection, root.context, type, userId)
+        FireStoreUtils.getItems(db, LoadingAnim, collection, root.context, type, userId) {FireStoreUtils.getSaldoMensal(db, userId + type, root.context, type, null, getDate("M"))}
         FireStoreUtils.getSaldoMensal(db, userId + type, root.context, type, null, getDate("M"))
         FireStoreUtils.getSaldoFixed(db, collectionProg, root.context, "Desp")
 
@@ -85,7 +85,8 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
                 "Despesa",
                 userId,
                 type,
-                UID
+                UID,
+                {FireStoreUtils.getSaldoMensal(db, userId + type, root.context, type, null, getDate("M"))}
             ) {
                 showEndAnimation(anim)
             }
@@ -108,7 +109,7 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
         textRemove.setOnClickListener {
             LoadingAnim.playAnimation()
             LoadingAnim.visibility = View.VISIBLE
-            FireStoreUtils.getItems(db, LoadingAnim, collection, root.context, type, userId)
+            FireStoreUtils.getItems(db, LoadingAnim, collection, root.context, type, userId) {FireStoreUtils.getSaldoMensal(db, userId + type, root.context, type, null, getDate("M"))}
         }
 
         //OBSERVERS
@@ -152,7 +153,7 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
                     UID,
                     name,
                     valor,
-                ) { FireStoreUtils.getItems(db, superAnim, collection, it, type, userId) }
+                ) { FireStoreUtils.getItems(db, superAnim, collection, it, type, userId){FireStoreUtils.getSaldoMensal(db, userId + type, it, type, null, getDate("M"))} }
             }
 
         }

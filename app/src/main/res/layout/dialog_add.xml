@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="Data da Despesa"
+        android:text="Data Desejada"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/edt_valor"
         app:layout_constraintStart_toStartOf="@+id/edt_valor"

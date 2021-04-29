@@ -30,7 +30,8 @@ class DialogManager {
             userId: String,
             type: String,
             UID: String,
-            onComplete: () -> Unit
+            onComplete: () -> Unit,
+            onComplete2: (() -> Unit)?
         ) {
             val dialog = AlertDialog.Builder(context)
             val view = LayoutInflater.from(context).inflate(R.layout.dialog_add, null)
@@ -63,7 +64,9 @@ class DialogManager {
                         userId,
                         type,
                         UID
-                    )
+                    ) {
+                        onComplete2?.invoke()
+                    }
                 ) onComplete()
 
             }

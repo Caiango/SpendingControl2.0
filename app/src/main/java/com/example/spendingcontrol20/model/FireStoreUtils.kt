@@ -17,10 +17,14 @@ class FireStoreUtils {
     companion object {
         val itemList: MutableLiveData<ArrayList<HashMap<String, String>>> = MutableLiveData()
         val saldoDesp: MutableLiveData<Double> = MutableLiveData()
-        val saldoMensal: MutableLiveData<Double> = MutableLiveData()
+        val saldoGain: MutableLiveData<Double> = MutableLiveData()
+        val saldoMensalDesp: MutableLiveData<Double> = MutableLiveData()
+        val saldoMensalGain: MutableLiveData<Double> = MutableLiveData()
         var saldoMensalDouble: Double = 0.0
-        val saldoProg: MutableLiveData<Double> = MutableLiveData()
-        val saldoSubProg: MutableLiveData<Double> = MutableLiveData()
+        val saldoProgDesp: MutableLiveData<Double> = MutableLiveData()
+        val saldoProgGain: MutableLiveData<Double> = MutableLiveData()
+        val saldoSubProgDesp: MutableLiveData<Double> = MutableLiveData()
+        val saldoSubProgGain: MutableLiveData<Double> = MutableLiveData()
 
 
         fun insertItem(
@@ -28,14 +32,15 @@ class FireStoreUtils {
             data: HashMap<String, String>,
             context: Context,
             userId: String,
-            type: String, UID: String
+            type: String, UID: String,
+            onComplete: (() -> Unit)?
         ): Boolean {
             db.collection(userId + type)
                 .document(UID)
                 .set(data)
                 .addOnSuccessListener {
                     success = true
-                    getItems(db, null, userId + type, context, type, userId)
+                    getItems(db, null, userId + type, context, type, userId) { onComplete?.invoke() }
                 }
                 .addOnFailureListener {
                     Toast.makeText(
@@ -102,7 +107,8 @@ class FireStoreUtils {
             collection: String,
             context: Context,
             type: String,
-            userId: String
+            userId: String,
+            onComplete: (() -> Unit)?
         ) {
             var lista = ArrayList<HashMap<String, String>>()
             db.collection(collection).orderBy("item_data").get().addOnSuccessListener { task ->
@@ -114,9 +120,11 @@ class FireStoreUtils {
 
                 if (anim == null) {
                     getSaldo(db, userId + type, context, type, null)
+                    onComplete?.invoke()
 
                 } else {
                     getSaldo(db, userId + type, context, type, anim)
+                    onComplete?.invoke()
                 }
 
 
@@ -163,7 +171,7 @@ class FireStoreUtils {
                 if (type == "Desp") {
                     saldoDesp.postValue(totalSaldo)
                 } else if (type == "Gain") {
-                    //TODO set txtganho
+                    saldoGain.postValue(totalSaldo)
                 }
 
                 success = true
@@ -203,10 +211,11 @@ class FireStoreUtils {
 
                     if (type == "Desp") {
                         //saldoProg.postValue(saldoFixed - saldoMensalDouble)
-                        saldoProg.postValue(saldoFixed)
-                        saldoSubProg.postValue(saldoFixed)
+                        saldoProgDesp.postValue(saldoFixed)
+                        saldoSubProgDesp.postValue(saldoFixed)
                     } else if (type == "Gain") {
-                        //TODO set txtganho
+                        saldoProgGain.postValue(saldoFixed)
+                        saldoSubProgGain.postValue(saldoFixed)
                     }
 
                     success = true
@@ -248,9 +257,9 @@ class FireStoreUtils {
                     saldoMensalDouble = totalSaldo
 
                     if (type == "Desp") {
-                        saldoMensal.postValue(totalSaldo)
+                        saldoMensalDesp.postValue(totalSaldo)
                     } else if (type == "Gain") {
-                        //TODO set txtganho
+                        saldoMensalGain.postValue(totalSaldo)
                     }
 
                     success = true

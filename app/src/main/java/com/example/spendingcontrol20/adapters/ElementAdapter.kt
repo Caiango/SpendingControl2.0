@@ -61,7 +61,7 @@ class ElementAdapter(
         } else {
             holder.img.setImageResource(R.drawable.ic_spend)
             holder.img.borderColor = Color.WHITE
-            holder.lay.setBackgroundColor(Color.parseColor("#D3F44336"))
+            holder.lay.setBackgroundColor(Color.parseColor("#0C8540"))
         }
 
         holder.initializeLong(dataList[position], longClickListener)
