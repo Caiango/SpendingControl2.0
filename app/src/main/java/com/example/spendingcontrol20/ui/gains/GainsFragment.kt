@@ -48,7 +48,7 @@ class GainsFragment : Fragment(), ElementAdapter.onClickListener,
         val anim = root.findViewById<LottieAnimationView>(R.id.animation_gain)
         val LoadingAnim = root.findViewById<LottieAnimationView>(R.id.animation_gain_loading)
         val floatBtn = root.findViewById<FloatingActionButton>(R.id.floatingGain)
-        val floatBtnFixedDesp = root.findViewById<FloatingActionButton>(R.id.floatAddFixed)
+        val floatBtnFixedGain = root.findViewById<FloatingActionButton>(R.id.floatAddFixed)
         val floatBtnFilter = root.findViewById<FloatingActionButton>(R.id.floatingFilterGain)
         val textSaldo = root.findViewById<TextView>(R.id.txtGainTotal)
         val textMensal = root.findViewById<TextView>(R.id.txtMesTotal)
@@ -69,10 +69,26 @@ class GainsFragment : Fragment(), ElementAdapter.onClickListener,
         if (acct != null) {
             userId = acct.id!!
             collection = acct.id!! + type
-            collectionProg = acct.id!! + "Prog"
+            collectionProg = acct.id!! + "Prog" + type
         }
 
-        FireStoreUtils.getItems(db, LoadingAnim, collection, root.context, type, userId) {FireStoreUtils.getSaldoMensal(db, userId + type, root.context, type, null, getDate("M"))}
+        FireStoreUtils.getItems(
+            db,
+            LoadingAnim,
+            collection,
+            root.context,
+            type,
+            userId
+        ) {
+            FireStoreUtils.getSaldoMensal(
+                db,
+                userId + type,
+                root.context,
+                type,
+                null,
+                getDate("M")
+            )
+        }
         FireStoreUtils.getSaldoMensal(db, userId + type, root.context, type, null, getDate("M"))
         FireStoreUtils.getSaldoFixed(db, collectionProg, root.context, "Gain")
 
@@ -86,20 +102,29 @@ class GainsFragment : Fragment(), ElementAdapter.onClickListener,
                 userId,
                 type,
                 UID,
-                {FireStoreUtils.getSaldoMensal(db, userId + type, root.context, type, null, getDate("M"))}
+                {
+                    FireStoreUtils.getSaldoMensal(
+                        db,
+                        userId + type,
+                        root.context,
+                        type,
+                        null,
+                        getDate("M")
+                    )
+                }
             ) {
                 showEndAnimation(anim)
             }
 
         }
 
-        floatBtnFixedDesp.setOnClickListener {
+        floatBtnFixedGain.setOnClickListener {
             DialogManager.dialogAddFixed(
                 root.context,
                 "Valor Fixo",
                 "200.00",
                 collectionProg, gainFixo
-            ) {}
+            ) { FireStoreUtils.getSaldoFixed(db, collectionProg, root.context, "Gain") }
         }
 
         floatBtnFilter.setOnClickListener {
@@ -109,7 +134,23 @@ class GainsFragment : Fragment(), ElementAdapter.onClickListener,
         textRemove.setOnClickListener {
             LoadingAnim.playAnimation()
             LoadingAnim.visibility = View.VISIBLE
-            FireStoreUtils.getItems(db, LoadingAnim, collection, root.context, type, userId) {FireStoreUtils.getSaldoMensal(db, userId + type, root.context, type, null, getDate("M"))}
+            FireStoreUtils.getItems(
+                db,
+                LoadingAnim,
+                collection,
+                root.context,
+                type,
+                userId
+            ) {
+                FireStoreUtils.getSaldoMensal(
+                    db,
+                    userId + type,
+                    root.context,
+                    type,
+                    null,
+                    getDate("M")
+                )
+            }
         }
 
         //OBSERVERS
@@ -161,7 +202,25 @@ class GainsFragment : Fragment(), ElementAdapter.onClickListener,
                     UID,
                     name,
                     valor,
-                ) { FireStoreUtils.getItems(db, superAnim, collection, it, type, userId) {FireStoreUtils.getSaldoMensal(db, userId + type, it, type, null, getDate("M"))} }
+                ) {
+                    FireStoreUtils.getItems(
+                        db,
+                        superAnim,
+                        collection,
+                        it,
+                        type,
+                        userId
+                    ) {
+                        FireStoreUtils.getSaldoMensal(
+                            db,
+                            userId + type,
+                            it,
+                            type,
+                            null,
+                            getDate("M")
+                        )
+                    }
+                }
             }
 
         }
