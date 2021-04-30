@@ -55,19 +55,23 @@ class DialogManager {
             }
 
             dialog.setPositiveButton("Adicionar") { _: DialogInterface, _: Int ->
-                mountData(item.text.toString(), value.text.toString(), UID, finalData)
+                if (item.text.toString() != "" && value.text.toString() != "") {
+                    mountData(item.text.toString(), value.text.toString(), UID, finalData)
 
-                if (FireStoreUtils.insertItem(
-                        db,
-                        sendingData,
-                        context,
-                        userId,
-                        type,
-                        UID
-                    ) {
-                        onComplete2?.invoke()
-                    }
-                ) onComplete()
+                    if (FireStoreUtils.insertItem(
+                            db,
+                            sendingData,
+                            context,
+                            userId,
+                            type,
+                            UID
+                        ) {
+                            onComplete2?.invoke()
+                        }
+                    ) onComplete()
+                } else {
+                    Toast.makeText(context, "Insira valores Válidos", Toast.LENGTH_LONG).show()
+                }
 
             }
             dialog.setNegativeButton("Cancelar") { dialogInterface: DialogInterface, i: Int ->
@@ -95,17 +99,21 @@ class DialogManager {
             valor.hint = hint
 
             dialog.setPositiveButton("Adicionar") { _: DialogInterface, _: Int ->
-                var hashFixo = HashMap<String, String>()
-                var value = valor.text.toString().trim()
-                hashFixo.put("valor_fixo", value)
+                if (valor.text.toString() != "") {
+                    var hashFixo = HashMap<String, String>()
+                    var value = valor.text.toString().trim()
+                    hashFixo.put("valor_fixo", value)
 
-                if (FireStoreUtils.insertProg(
-                        db,
-                        hashFixo,
-                        context,
-                        collection, "Desp"
-                    )
-                ) onComplete()
+                    if (FireStoreUtils.insertProg(
+                            db,
+                            hashFixo,
+                            context,
+                            collection, "Desp"
+                        )
+                    ) onComplete()
+                } else {
+                    Toast.makeText(context, "Insira valores Válidos", Toast.LENGTH_LONG).show()
+                }
 
             }
             dialog.setNegativeButton("Cancelar") { dialogInterface: DialogInterface, i: Int ->
@@ -147,17 +155,21 @@ class DialogManager {
             }
 
             dialog.setPositiveButton("Atualizar") { _: DialogInterface, _: Int ->
-                mountData(item.text.toString(), value.text.toString(), UID, finalData)
+                if (item.text.toString() != "" && value.text.toString() != "") {
+                    mountData(item.text.toString(), value.text.toString(), UID, finalData)
 
-                if (FireStoreUtils.updateItem(
-                        db,
-                        sendingData,
-                        context,
-                        userId,
-                        type,
-                        UID
-                    )
-                ) onComplete()
+                    if (FireStoreUtils.updateItem(
+                            db,
+                            sendingData,
+                            context,
+                            userId,
+                            type,
+                            UID
+                        )
+                    ) onComplete()
+                } else {
+                    Toast.makeText(context, "Insira valores Válidos", Toast.LENGTH_LONG).show()
+                }
 
 
             }
