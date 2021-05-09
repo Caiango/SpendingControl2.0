@@ -25,6 +25,12 @@ class FireStoreUtils {
         val saldoProgGain: MutableLiveData<Double> = MutableLiveData()
         val saldoSubProgDesp: MutableLiveData<Double> = MutableLiveData()
         val saldoSubProgGain: MutableLiveData<Double> = MutableLiveData()
+        val saldoSubMensal: MutableLiveData<Double> = MutableLiveData()
+        var saldoMesGain = 0.0
+        var saldoMesDesp = 0.0
+        val saldoSubTotal: MutableLiveData<Double> = MutableLiveData()
+        var saldoTotalGain = 0.0
+        var saldoTotalDesp = 0.0
 
 
         fun insertItem(
@@ -40,7 +46,14 @@ class FireStoreUtils {
                 .set(data)
                 .addOnSuccessListener {
                     success = true
-                    getItems(db, null, userId + type, context, type, userId) { onComplete?.invoke() }
+                    getItems(
+                        db,
+                        null,
+                        userId + type,
+                        context,
+                        type,
+                        userId
+                    ) { onComplete?.invoke() }
                 }
                 .addOnFailureListener {
                     Toast.makeText(
@@ -170,8 +183,12 @@ class FireStoreUtils {
 
                 if (type == "Desp") {
                     saldoDesp.postValue(totalSaldo)
+                    saldoTotalDesp = totalSaldo
+                    saldoSubTotal.postValue(saldoTotalGain - saldoTotalDesp)
                 } else if (type == "Gain") {
                     saldoGain.postValue(totalSaldo)
+                    saldoTotalGain = totalSaldo
+                    saldoSubTotal.postValue(saldoTotalGain - saldoTotalDesp)
                 }
 
                 success = true
@@ -258,8 +275,12 @@ class FireStoreUtils {
 
                     if (type == "Desp") {
                         saldoMensalDesp.postValue(totalSaldo)
+                        saldoMesDesp = totalSaldo
+                        saldoSubMensal.postValue(saldoMesGain - saldoMesDesp)
                     } else if (type == "Gain") {
                         saldoMensalGain.postValue(totalSaldo)
+                        saldoMesGain = totalSaldo
+                        saldoSubMensal.postValue(saldoMesGain - saldoMesDesp)
                     }
 
                     success = true
