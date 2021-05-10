@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -89,12 +88,12 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
 
             btn.setOnClickListener {
                 googleSignInClient.signOut()
+                FireStoreUtils.clearData()
                 val intent = Intent(root.context, LoginActivity::class.java)
                 startActivity(intent)
             }
 
-            FireStoreUtils.getSaldoFixed(db, gainProgCollection, root.context, "Gain")
-            FireStoreUtils.getSaldoFixed(db, despProgCollection, root.context, "Desp")
+
             FireStoreUtils.getSaldo(db, gainCollection, root.context, "Gain", null)
             FireStoreUtils.getSaldo(db, despCollection, root.context, "Desp", null)
             FireStoreUtils.getSaldoMensal(
@@ -113,7 +112,6 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
                 null,
                 getDate("M")
             )
-
 
 
         }

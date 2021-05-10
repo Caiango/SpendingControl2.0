@@ -322,6 +322,22 @@ class FireStoreUtils {
             return success
         }
 
+        fun clearData() {
+            saldoDesp.postValue(0.0)
+            saldoGain.postValue(0.0)
+            saldoMensalDesp.postValue(0.0)
+            saldoMensalGain.postValue(0.0)
+            saldoMensalDouble = 0.0
+            saldoProgDesp.postValue(0.0)
+            saldoProgGain.postValue(0.0)
+            saldoSubProgDesp.postValue(0.0)
+            saldoSubProgGain.postValue(0.0)
+            saldoSubMensal.postValue(0.0)
+            saldoMesGain = 0.0
+            saldoMesDesp = 0.0
+            saldoSubTotal.postValue(0.0)
+        }
+
     }
 
 
