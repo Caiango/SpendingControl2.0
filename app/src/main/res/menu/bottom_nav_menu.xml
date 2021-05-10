@@ -4,17 +4,17 @@
 
     <item
         android:id="@+id/navigation_spending"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/ic_spend"
         android:title="@string/title_spending" />
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/title_home" />
 
     <item
         android:id="@+id/navigation_gains"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_add"
         android:title="@string/title_gains" />
 
 </menu>

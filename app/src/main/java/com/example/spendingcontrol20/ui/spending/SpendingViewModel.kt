@@ -21,6 +21,4 @@ class SpendingViewModel : ViewModel() {
 
     val saldoProg = FireStoreUtils.saldoProgDesp
 
-    val saldoSubProg = FireStoreUtils.saldoSubProgDesp
-
 }

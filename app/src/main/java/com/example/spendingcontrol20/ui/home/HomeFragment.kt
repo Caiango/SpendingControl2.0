@@ -51,13 +51,12 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
 
         //getting views
         val rv = root.findViewById<RecyclerView>(R.id.rv_home)
-        var txProfile = root.findViewById<TextView>(R.id.txProfile)
-        var btn = root.findViewById<Button>(R.id.buttonSignOut)
-        var txtData = root.findViewById<TextView>(R.id.txData)
-        var txtDespProg = root.findViewById<TextView>(R.id.textViewDesp)
-        txtGainProg = root.findViewById<TextView>(R.id.textViewGain)
-        var txtMensal = root.findViewById<TextView>(R.id.textViewMensal)
-        var txtTotal = root.findViewById<TextView>(R.id.textViewTotal)
+        val txProfile = root.findViewById<TextView>(R.id.txProfile)
+        val btn = root.findViewById<Button>(R.id.buttonSignOut)
+        val txtDespProg = root.findViewById<TextView>(R.id.textViewDesp)
+        txtGainProg = root.findViewById(R.id.textViewGain)
+        val txtMensal = root.findViewById<TextView>(R.id.textViewMensal)
+        val txtTotal = root.findViewById<TextView>(R.id.textViewTotal)
         anim_warn1 = root.findViewById(R.id.anim_warning)
         anim_warn2 = root.findViewById(R.id.anim_warning2)
         anim_ok1 = root.findViewById(R.id.anim_ok)
@@ -67,8 +66,6 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
         rv.layoutManager = LinearLayoutManager(root.context)
         rv.setHasFixedSize(true)
         rv.adapter = adapter
-
-        txtData.text = getDate("A")
 
         //LOGIN GOOGLE
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -84,8 +81,8 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
             var personPhoto = acct.photoUrl
             gainCollection = acct.id + "Gain"
             despCollection = acct.id + "Desp"
-            despProgCollection = acct.id + "Prog" + "Desp"
-            gainProgCollection = acct.id + "Prog" + "Gain"
+            despProgCollection = acct.id + "Desp" + "Prog"
+            gainProgCollection = acct.id + "Gain" + "Prog"
 
             txProfile.text = acct.displayName?.toUpperCase()
             Glide.with(root.context).load(personPhoto).into(root.findViewById(R.id.profile_image))
@@ -96,6 +93,8 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
                 startActivity(intent)
             }
 
+            FireStoreUtils.getSaldoFixed(db, gainProgCollection, root.context, "Gain")
+            FireStoreUtils.getSaldoFixed(db, despProgCollection, root.context, "Desp")
             FireStoreUtils.getSaldo(db, gainCollection, root.context, "Gain", null)
             FireStoreUtils.getSaldo(db, despCollection, root.context, "Desp", null)
             FireStoreUtils.getSaldoMensal(
@@ -114,8 +113,7 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
                 null,
                 getDate("M")
             )
-            FireStoreUtils.getSaldoFixed(db, gainProgCollection, root.context, "Gain")
-            FireStoreUtils.getSaldoFixed(db, despProgCollection, root.context, "Desp")
+
 
 
         }

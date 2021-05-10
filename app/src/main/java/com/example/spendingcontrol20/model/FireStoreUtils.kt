@@ -184,10 +184,12 @@ class FireStoreUtils {
                     saldoDesp.postValue(totalSaldo)
                     saldoTotalDesp = totalSaldo
                     saldoSubTotal.postValue(saldoTotalGain - saldoTotalDesp)
+                    getSaldoFixed(db, collection + "Prog", context, type)
                 } else if (type == "Gain") {
                     saldoGain.postValue(totalSaldo)
                     saldoTotalGain = totalSaldo
                     saldoSubTotal.postValue(saldoTotalGain - saldoTotalDesp)
+                    getSaldoFixed(db, collection + "Prog", context, type)
                 }
 
                 success = true
@@ -223,7 +225,6 @@ class FireStoreUtils {
                     var valor: String = task["valor_fixo"] as String
                     valor.trim()
                     saldoFixed = valor.toDouble()
-
 
                     if (type == "Desp") {
                         saldoProgDesp.postValue(saldoFixed)

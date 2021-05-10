@@ -69,7 +69,7 @@ class GainsFragment : Fragment(), ElementAdapter.onClickListener,
         if (acct != null) {
             userId = acct.id!!
             collection = acct.id!! + type
-            collectionProg = acct.id!! + "Prog" + type
+            collectionProg = acct.id!! + type + "Prog"
         }
 
         FireStoreUtils.getItems(
@@ -170,10 +170,7 @@ class GainsFragment : Fragment(), ElementAdapter.onClickListener,
 
         gainsViewModel.saldoProg.observe(viewLifecycleOwner, { prog ->
             textFixed.text = "R$ $prog"
-        })
-
-        gainsViewModel.saldoSubProg.observe(viewLifecycleOwner, {
-            gainFixo = it
+            gainFixo = prog
         })
         return root
     }

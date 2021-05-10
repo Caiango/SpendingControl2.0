@@ -69,7 +69,7 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
         if (acct != null) {
             userId = acct.id!!
             collection = acct.id!! + type
-            collectionProg = acct.id!! + "Prog" + type
+            collectionProg = acct.id!! + type + "Prog"
         }
 
         FireStoreUtils.getItems(
@@ -170,10 +170,7 @@ class SpendingFragment : Fragment(), ElementAdapter.onClickListener,
 
         spendingViewModel.saldoProg.observe(viewLifecycleOwner, { prog ->
             textFixed.text = "R$ $prog"
-        })
-
-        spendingViewModel.saldoSubProg.observe(viewLifecycleOwner, {
-            despFixo = it
+            despFixo = prog
         })
         return root
     }

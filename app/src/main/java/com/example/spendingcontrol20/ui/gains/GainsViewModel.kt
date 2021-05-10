@@ -21,7 +21,6 @@ class GainsViewModel : ViewModel() {
 
     val saldoProg = FireStoreUtils.saldoProgGain
 
-    val saldoSubProg = FireStoreUtils.saldoSubProgGain
 
 
 }
