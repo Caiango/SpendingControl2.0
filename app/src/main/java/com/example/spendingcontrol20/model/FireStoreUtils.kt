@@ -140,7 +140,6 @@ class FireStoreUtils {
                     onComplete?.invoke()
                 }
 
-
             }
         }
 
@@ -227,12 +226,11 @@ class FireStoreUtils {
 
 
                     if (type == "Desp") {
-                        //saldoProg.postValue(saldoFixed - saldoMensalDouble)
                         saldoProgDesp.postValue(saldoFixed)
-                        saldoSubProgDesp.postValue(saldoFixed)
+                        saldoSubProgDesp.postValue(saldoFixed - saldoMesDesp)
                     } else if (type == "Gain") {
                         saldoProgGain.postValue(saldoFixed)
-                        saldoSubProgGain.postValue(saldoFixed)
+                        saldoSubProgGain.postValue(saldoFixed - saldoMesGain)
                     }
 
                     success = true
@@ -258,15 +256,16 @@ class FireStoreUtils {
             anim: LottieAnimationView?,
             mes: String
         ) {
-            db.collection(collection).whereEqualTo("item_data", mes).get()
+            db.collection(collection).get()
                 .addOnSuccessListener { task ->
                     var saldoList = ArrayList<Double>()
                     for (document in task) {
+                        if (document["item_data"] == mes || document["item_data"] == "MENSAL") {
+                            var valor: String = document["item_value"] as String
+                            valor.trim().toDouble()
 
-                        var valor: String = document["item_value"] as String
-                        valor.trim().toDouble()
-
-                        saldoList.add(valor.toDouble())
+                            saldoList.add(valor.toDouble())
+                        }
                     }
 
                     totalSaldo = 0.0

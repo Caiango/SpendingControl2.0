@@ -14,9 +14,9 @@ class HomeViewModel : ViewModel() {
 
     val saldoMensal = FireStoreUtils.saldoSubMensal
 
-    val saldoProgDesp = FireStoreUtils.saldoProgDesp
+    val saldoProgDesp = FireStoreUtils.saldoSubProgDesp
 
-    val saldoProgGain = FireStoreUtils.saldoProgGain
+    val saldoProgGain = FireStoreUtils.saldoSubProgGain
 
     val saldoTotal = FireStoreUtils.saldoSubTotal
 

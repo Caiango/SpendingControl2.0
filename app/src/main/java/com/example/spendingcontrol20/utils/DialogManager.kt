@@ -4,10 +4,8 @@ import android.content.Context
 import android.content.DialogInterface
 import android.text.Editable
 import android.view.LayoutInflater
-import android.widget.CalendarView
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.example.spendingcontrol20.R
 import com.example.spendingcontrol20.model.FireStoreUtils
@@ -40,12 +38,31 @@ class DialogManager {
             val item = view.findViewById<EditText>(R.id.edt_element)
             val value = view.findViewById<EditText>(R.id.edt_valor)
             val calendar = view.findViewById<CalendarView>(R.id.calendarViewAdd)
+            val check = view.findViewById<CheckBox>(R.id.cbMensal)
             val txtData = view.findViewById<TextView>(R.id.txtData)
+            val txtData1 = view.findViewById<TextView>(R.id.textView7)
+            val txtData2 = view.findViewById<TextView>(R.id.textView8)
             txtData.text = "Mês Selecionado: ${getDate()}"
             var mes: Int
             var ano: Int
             var finalData = getDate()
             item.hint = hint
+
+            check.setOnCheckedChangeListener { _, b ->
+                if (b) {
+                    calendar.visibility = View.GONE
+                    txtData.text = "Mês Selecionado: MENSAL"
+                    txtData1.visibility = View.GONE
+                    txtData2.visibility = View.GONE
+                    finalData = "MENSAL"
+                } else {
+                    calendar.visibility = View.VISIBLE
+                    txtData.text = "Mês Selecionado: ${getDate()}"
+                    txtData1.visibility = View.VISIBLE
+                    txtData2.visibility = View.VISIBLE
+                    finalData = getDate()
+                }
+            }
 
             calendar.setOnDateChangeListener { calendarView, i, i2, i3 ->
                 mes = i2 + 1
@@ -100,8 +117,8 @@ class DialogManager {
 
             dialog.setPositiveButton("Adicionar") { _: DialogInterface, _: Int ->
                 if (valor.text.toString() != "") {
-                    var hashFixo = HashMap<String, String>()
-                    var value = valor.text.toString().trim()
+                    val hashFixo = HashMap<String, String>()
+                    val value = valor.text.toString().trim()
                     hashFixo.put("valor_fixo", value)
 
                     if (FireStoreUtils.insertProg(
@@ -138,7 +155,10 @@ class DialogManager {
             val item = view.findViewById<EditText>(R.id.edt_element)
             val value = view.findViewById<EditText>(R.id.edt_valor)
             val calendar = view.findViewById<CalendarView>(R.id.calendarViewAdd)
+            val check = view.findViewById<CheckBox>(R.id.cbMensal)
             val txtData = view.findViewById<TextView>(R.id.txtData)
+            val txtData1 = view.findViewById<TextView>(R.id.textView7)
+            val txtData2 = view.findViewById<TextView>(R.id.textView8)
             txtData.text = "Mês Selecionado: ${getDate()}"
 
             item.text = Editable.Factory.getInstance().newEditable(name)
@@ -146,6 +166,22 @@ class DialogManager {
             var mes: Int
             var ano: Int
             var finalData = getDate()
+
+            check.setOnCheckedChangeListener { _, b ->
+                if (b) {
+                    calendar.visibility = View.GONE
+                    txtData.text = "Mês Selecionado: MENSAL"
+                    txtData1.visibility = View.GONE
+                    txtData2.visibility = View.GONE
+                    finalData = "MENSAL"
+                } else {
+                    calendar.visibility = View.VISIBLE
+                    txtData.text = "Mês Selecionado: ${getDate()}"
+                    txtData1.visibility = View.VISIBLE
+                    txtData2.visibility = View.VISIBLE
+                    finalData = getDate()
+                }
+            }
 
             calendar.setOnDateChangeListener { calendarView, i, i2, i3 ->
                 mes = i2 + 1
@@ -193,10 +229,25 @@ class DialogManager {
             dialog.setView(view)
             val calendar = view.findViewById<CalendarView>(R.id.calendarViewDialog)
             val txtData = view.findViewById<TextView>(R.id.txtCalData)
+            val check = view.findViewById<CheckBox>(R.id.cbMes)
             txtData.text = "Mês Selecionado: ${getDate()}"
             var mes: Int
             var ano: Int
             var finalData = getDate()
+
+            check.setOnCheckedChangeListener { _, b ->
+                if (b) {
+                    calendar.visibility = View.GONE
+                    txtData.text = "Mês Selecionado: MENSAL"
+                    txtData.visibility = View.GONE
+                    finalData = "MENSAL"
+                } else {
+                    calendar.visibility = View.VISIBLE
+                    txtData.text = "Mês Selecionado: ${getDate()}"
+                    txtData.visibility = View.VISIBLE
+                    finalData = getDate()
+                }
+            }
             calendar.setOnDateChangeListener { calendarView, i, i2, i3 ->
 
                 mes = i2 + 1

@@ -14,6 +14,7 @@ import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import de.hdodenhof.circleimageview.CircleImageView
 
 class LoginActivity : AppCompatActivity() {
 
@@ -25,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
 
     // Variáveis para uso do Google
     var RC_SIGN_IN: Int = 0
-    lateinit var signInButton: SignInButton
+    lateinit var signInButton: CircleImageView
     lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,8 +46,12 @@ class LoginActivity : AppCompatActivity() {
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        signInButton.setOnClickListener { signIn()}
+        val acct = GoogleSignIn.getLastSignedInAccount(this)
+        if (acct != null) {
+            callIntent()
+        }
 
+        signInButton.setOnClickListener { signIn() }
 
 
     }
@@ -106,7 +111,7 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    private fun callIntent(){
+    private fun callIntent() {
         val intent2 = Intent(this, MainActivity::class.java)
         startActivity(intent2)
     }

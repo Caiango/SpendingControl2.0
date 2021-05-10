@@ -39,6 +39,7 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
     lateinit var anim_warn2: LottieAnimationView
     lateinit var anim_ok1: LottieAnimationView
     lateinit var anim_ok2: LottieAnimationView
+    lateinit var txtGainProg: TextView
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,7 +55,7 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
         var btn = root.findViewById<Button>(R.id.buttonSignOut)
         var txtData = root.findViewById<TextView>(R.id.txData)
         var txtDespProg = root.findViewById<TextView>(R.id.textViewDesp)
-        var txtGainProg = root.findViewById<TextView>(R.id.textViewGain)
+        txtGainProg = root.findViewById<TextView>(R.id.textViewGain)
         var txtMensal = root.findViewById<TextView>(R.id.textViewMensal)
         var txtTotal = root.findViewById<TextView>(R.id.textViewTotal)
         anim_warn1 = root.findViewById(R.id.anim_warning)
@@ -131,7 +132,7 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
         })
 
         homeViewModel.saldoProgGain.observe(viewLifecycleOwner, { prog ->
-            txtGainProg.text = prog.toString()
+            setProgText(prog)
         })
 
         homeViewModel.saldoTotal.observe(viewLifecycleOwner, { total ->
@@ -142,6 +143,20 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
 
 
         return root
+    }
+
+    private fun setProgText(value: Double) {
+        when {
+            value > 0.0 -> {
+                txtGainProg.text = "-$value"
+            }
+            value < 0.0 -> {
+                txtGainProg.text = "+" + (-value).toString()
+            }
+            else -> {
+                txtGainProg.text = value.toString()
+            }
+        }
     }
 
     private fun setAnimVisibility(valor: Double, type: String) {
