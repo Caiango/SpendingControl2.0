@@ -39,6 +39,7 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
     lateinit var anim_ok1: LottieAnimationView
     lateinit var anim_ok2: LottieAnimationView
     lateinit var txtGainProg: TextView
+    lateinit var txtDespProg: TextView
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,7 +53,7 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
         val rv = root.findViewById<RecyclerView>(R.id.rv_home)
         val txProfile = root.findViewById<TextView>(R.id.txProfile)
         val btn = root.findViewById<Button>(R.id.buttonSignOut)
-        val txtDespProg = root.findViewById<TextView>(R.id.textViewDesp)
+        txtDespProg = root.findViewById<TextView>(R.id.textViewDesp)
         txtGainProg = root.findViewById(R.id.textViewGain)
         val txtMensal = root.findViewById<TextView>(R.id.textViewMensal)
         val txtTotal = root.findViewById<TextView>(R.id.textViewTotal)
@@ -124,11 +125,11 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
         })
 
         homeViewModel.saldoProgDesp.observe(viewLifecycleOwner, { prog ->
-            txtDespProg.text = prog.toString()
+            setProgText(prog, "Desp")
         })
 
         homeViewModel.saldoProgGain.observe(viewLifecycleOwner, { prog ->
-            setProgText(prog)
+            setProgText(prog, "Gain")
         })
 
         homeViewModel.saldoTotal.observe(viewLifecycleOwner, { total ->
@@ -141,16 +142,33 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
         return root
     }
 
-    private fun setProgText(value: Double) {
-        when {
-            value > 0.0 -> {
-                txtGainProg.text = "-$value"
+    private fun setProgText(value: Double, type: String) {
+        if (type == "Gain") {
+            when {
+                value > 0.0 -> {
+                    txtGainProg.text = "-$value"
+                }
+                value < 0.0 -> {
+                    txtGainProg.text = "+" + (-value).toString()
+                }
+                else -> {
+                    txtGainProg.text = value.toString()
+                }
             }
-            value < 0.0 -> {
-                txtGainProg.text = "+" + (-value).toString()
-            }
-            else -> {
-                txtGainProg.text = value.toString()
+        } else {
+            when {
+                value > 0.0 -> {
+                    txtDespProg.text = "+$value"
+
+
+                }
+                value < 0.0 -> {
+                    txtDespProg.text = "$value"
+
+                }
+                else -> {
+                    txtDespProg.text = value.toString()
+                }
             }
         }
     }

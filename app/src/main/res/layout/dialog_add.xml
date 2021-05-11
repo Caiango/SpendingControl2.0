@@ -81,7 +81,7 @@
             android:id="@+id/cbMensal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Despesa Mensal?"
+            android:text="Mensal?"
             app:layout_constraintStart_toStartOf="@+id/txtData"
             app:layout_constraintTop_toBottomOf="@+id/txtData" />
 
