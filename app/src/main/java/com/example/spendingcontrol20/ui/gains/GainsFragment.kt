@@ -17,6 +17,7 @@ import com.example.spendingcontrol20.adapters.ElementAdapter
 import com.example.spendingcontrol20.model.FireStoreUtils
 import com.example.spendingcontrol20.utils.Constants
 import com.example.spendingcontrol20.utils.DialogManager
+import com.example.spendingcontrol20.utils.SharedPref
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
@@ -61,7 +62,7 @@ class GainsFragment : Fragment(), ElementAdapter.onClickListener,
         superAnim = LottieAnimationView(context)
         superAnim = anim
 
-        var adapter = ElementAdapter(this, this, "Gain")
+        var adapter = ElementAdapter(this, this, "Gain", root.context)
 
         setAdapter(rv, root.context, adapter)
 
@@ -70,6 +71,7 @@ class GainsFragment : Fragment(), ElementAdapter.onClickListener,
             userId = acct.id!!
             collection = acct.id!! + type
             collectionProg = acct.id!! + type + "Prog"
+            SharedPref.saveCurrentUser(root.context, userId)
         }
 
         FireStoreUtils.getItems(

@@ -73,7 +73,7 @@ class DialogManager {
 
             dialog.setPositiveButton("Adicionar") { _: DialogInterface, _: Int ->
                 if (item.text.toString() != "" && value.text.toString() != "") {
-                    mountData(item.text.toString(), value.text.toString(), UID, finalData)
+                    mountData(item.text.toString(), value.text.toString(), UID, finalData, "false")
 
                     if (FireStoreUtils.insertItem(
                             db,
@@ -192,7 +192,7 @@ class DialogManager {
 
             dialog.setPositiveButton("Atualizar") { _: DialogInterface, _: Int ->
                 if (item.text.toString() != "" && value.text.toString() != "") {
-                    mountData(item.text.toString(), value.text.toString(), UID, finalData)
+                    mountData(item.text.toString(), value.text.toString(), UID, finalData, "null")
 
                     if (FireStoreUtils.updateItem(
                             db,
@@ -288,9 +288,10 @@ fun getDate(): String {
 
 }
 
-fun mountData(item: String, value: String, UID: String, data: String) {
+fun mountData(item: String, value: String, UID: String, data: String, payed: String) {
     sendingData.put(Constants.ITEM_NAME, item)
     sendingData.put(Constants.ITEM_VALUE, value)
     sendingData.put(Constants.ITEM_UID, UID)
     sendingData.put(Constants.ITEM_DATA, data)
+    sendingData.put(Constants.ITEM_PAYED, payed)
 }

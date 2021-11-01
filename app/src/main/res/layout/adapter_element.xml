@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="5dp"
     android:layout_marginBottom="10dp"
-    app:cardCornerRadius="15dp">
+    app:cardCornerRadius="15dp"
+    app:cardElevation="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint"
@@ -24,7 +25,7 @@
             android:textColor="#ffffff"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/txtDataElement"
-            app:layout_constraintStart_toEndOf="@+id/imageViewAdapter"
+            app:layout_constraintStart_toEndOf="@+id/cbPayed"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -39,7 +40,7 @@
             android:textColor="#ffffff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textView4"
-            app:layout_constraintStart_toEndOf="@+id/imageViewAdapter"
+            app:layout_constraintStart_toEndOf="@+id/cbPayed"
             app:layout_constraintTop_toBottomOf="@+id/editTextElement" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -55,16 +56,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.05109489" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageViewAdapter"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            app:civ_border_width="1dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline9"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView4"
@@ -84,13 +75,23 @@
             android:id="@+id/txtDataElement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
             android:text="TextView"
             android:textColor="@color/white"
-            android:fontFamily="@font/montserrat_medium"
-            android:textStyle="bold"
             android:textSize="10sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/editTextValor"
             app:layout_constraintEnd_toEndOf="@+id/textView4" />
+
+        <CheckBox
+            android:id="@+id/cbPayed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:buttonTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline9"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

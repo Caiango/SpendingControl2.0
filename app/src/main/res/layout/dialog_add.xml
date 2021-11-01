@@ -81,6 +81,10 @@
             android:id="@+id/cbMensal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/teal_200"
+            android:buttonTint="@color/teal_200"
+            android:drawableTint="@color/teal_200"
+            android:foregroundTint="@color/teal_200"
             android:text="Mensal?"
             app:layout_constraintStart_toStartOf="@+id/txtData"
             app:layout_constraintTop_toBottomOf="@+id/txtData" />

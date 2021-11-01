@@ -1,5 +1,6 @@
 package com.example.spendingcontrol20.ui.home
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import com.example.spendingcontrol20.R
 import com.example.spendingcontrol20.adapters.HomeAdapter
 import com.example.spendingcontrol20.model.FireStoreUtils
 import com.example.spendingcontrol20.ui.LoginActivity
+import com.example.spendingcontrol20.utils.SharedPref
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -103,7 +105,7 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
                 root.context,
                 "Gain",
                 null,
-                getDate("M")
+                getDate("M", root.context)
             )
             FireStoreUtils.getSaldoMensal(
                 db,
@@ -111,7 +113,7 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
                 root.context,
                 "Desp",
                 null,
-                getDate("M")
+                getDate("M", root.context)
             )
 
 
@@ -195,15 +197,14 @@ class HomeFragment : Fragment(), HomeAdapter.onClickListener,
 
 }
 
-fun getDate(condicao: String): String {
+fun getDate(condicao: String, context: Context): String {
     var data = ""
+    val calendar = Calendar.getInstance()
     if (condicao == "A") {
-        var calendar = Calendar.getInstance()
         var format = SimpleDateFormat("dd/MM/yyyy")
         var dataFinal = format.format(calendar.time)
         data = dataFinal
     } else if (condicao == "M") {
-        var calendar = Calendar.getInstance()
         var format = SimpleDateFormat("MM/yyyy")
         var dataFinal = format.format(calendar.time)
         var first: String = (dataFinal.first()).toString()
@@ -213,5 +214,6 @@ fun getDate(condicao: String): String {
             data = dataFinal
         }
     }
+    SharedPref.saveCurrentMonth(context, calendar.get(Calendar.MONTH))
     return data
 }

@@ -1,20 +1,24 @@
 package com.example.spendingcontrol20.adapters
 
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spendingcontrol20.R
+import com.example.spendingcontrol20.model.FireStoreUtils
 import com.example.spendingcontrol20.utils.Constants
-import de.hdodenhof.circleimageview.CircleImageView
+import com.example.spendingcontrol20.utils.db
 
 class ElementAdapter(
     var longClickListener: onLongClickListener,
     var clickListener: onClickListener,
-    var type: String
+    var type: String,
+    val context: Context
 ) : RecyclerView.Adapter<ElementAdapter.HolderData>() {
 
     var dataList: ArrayList<HashMap<String, String>> = ArrayList()
@@ -22,9 +26,9 @@ class ElementAdapter(
     class HolderData(v: View) : RecyclerView.ViewHolder(v) {
         val txElement = v.findViewById<TextView>(R.id.editTextElement)
         val txValor = v.findViewById<TextView>(R.id.editTextValor)
-        val img = v.findViewById<CircleImageView>(R.id.imageViewAdapter)
         val lay = v.findViewById<ConstraintLayout>(R.id.constraint)
         val txData = v.findViewById<TextView>(R.id.txtDataElement)
+        val cb = v.findViewById<CheckBox>(R.id.cbPayed)
 
         fun initializeLong(item: java.util.HashMap<String, String>, action: onLongClickListener) {
 
@@ -55,17 +59,22 @@ class ElementAdapter(
         holder.txValor.text = data[Constants.ITEM_VALUE]
         holder.txData.text = data[Constants.ITEM_DATA]
         if (type == "Desp") {
-            holder.img.setImageResource(R.drawable.ic_spend)
-            holder.img.borderColor = Color.WHITE
             holder.lay.setBackgroundColor(Color.parseColor("#D3F44336"))
         } else {
-            holder.img.setImageResource(R.drawable.ic_spend)
-            holder.img.borderColor = Color.WHITE
             holder.lay.setBackgroundColor(Color.parseColor("#0C8540"))
         }
 
         holder.initializeLong(dataList[position], longClickListener)
         holder.initializeClick(dataList[position], clickListener)
+        holder.cb.isChecked = data[Constants.ITEM_PAYED] == "true"
+        holder.cb.setOnCheckedChangeListener { cb, b ->
+            FireStoreUtils.updateIsPayed(
+                db,
+                cb.isChecked.toString(), context,
+                data[Constants.ITEM_UID]!!,
+                type
+            )
+        }
     }
 
     override fun getItemCount(): Int {

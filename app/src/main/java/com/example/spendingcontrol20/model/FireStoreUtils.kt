@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.airbnb.lottie.LottieAnimationView
+import com.example.spendingcontrol20.utils.SharedPref
 import com.google.firebase.firestore.FirebaseFirestore
 
 var success = true
@@ -112,6 +113,17 @@ class FireStoreUtils {
 
                 }
             return success
+        }
+
+        fun updateIsPayed(
+            db: FirebaseFirestore,
+            isPayed: String,
+            context: Context,
+            UID: String,
+            type: String
+        ) {
+            db.collection(SharedPref.getCurrentUserId(context) + type).document(UID)
+                .update("item_payed", isPayed)
         }
 
         fun getItems(

@@ -9,9 +9,8 @@ class Constants {
         val ITEM_VALUE = "item_value"
         val ITEM_UID = "item_uid"
         val ITEM_DATA = "item_data"
-
-        var LIST = ArrayList<HashMap<String, String>>()
-
-
+        val ITEM_PAYED = "item_payed"
+        val CURRENT_USER = "current_user"
+        val CURRENT_MONTH = "current_month"
     }
 }
